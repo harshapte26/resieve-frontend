@@ -36,12 +36,13 @@ function httpGet(theUrl)
 {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-    xmlHttp.setRequestHeader("Access-Control-Allow-Origin" ,"*");
-    xmlHttp.setRequestHeader("Access-Control-Allow-Methods", "*");
-    xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "*");
+    // xmlHttp.setRequestHeader("Access-Control-Allow-Origin" ,"*");
+    // xmlHttp.setRequestHeader("Access-Control-Allow-Methods", "*");
+    // xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "*");
     xmlHttp.send( null );
     res1 = xmlHttp.responseText;
     res2 = JSON.parse(res1);
+    console.log("res2---->", res2)
     name_post = res2["post_title"];
     text_to_display = res2["content"];
     post_tag = res2["tag"];
