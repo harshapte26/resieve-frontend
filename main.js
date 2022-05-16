@@ -451,7 +451,7 @@ function onLoadEvent(){
         clean_container.innerHTML = " ";
     }
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.open( "GET", "https://548zfv0fek.execute-api.us-east-1.amazonaws.com/alpha/dataFetch", false ); // false for synchronous request
     xmlHttp.setRequestHeader("Access-Control-Allow-Origin" ,"*");
     xmlHttp.setRequestHeader("Access-Control-Allow-Methods", "*");
     xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "*");
