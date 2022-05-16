@@ -27,167 +27,28 @@
 // var url = "http://127.0.0.1:5000/"
 
 
-// var name_post;
-// var text_to_display;
-// var post_tag;
-// var up_count;
+var name_post;
+var text_to_display;
+var post_tag;
+var up_count;
 
 function httpGet(theUrl)
 {
-    // return false;
-    var clean_container = document.getElementById("main_feed");
-    if (typeof(clean_container) != 'undefined' && clean_container != null)
-    {
-        clean_container.innerHTML = " ";
-    }
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-    xmlHttp.setRequestHeader("Access-Control-Allow-Origin" ,"*");
-    xmlHttp.setRequestHeader("Access-Control-Allow-Methods", "*");
-    xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "*");
-    xmlHttp.send("hello");
+    // xmlHttp.setRequestHeader("Access-Control-Allow-Origin" ,"*");
+    // xmlHttp.setRequestHeader("Access-Control-Allow-Methods", "*");
+    // xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "*");
+    xmlHttp.send( null );
     res1 = xmlHttp.responseText;
-    console.log("RES1 --->>>", res1);
     res2 = JSON.parse(res1);
-    console.log("RES 2 in HTTP GET FUNCC---->", res2);
-    res2 = res2['a'];
-    console.log("RES 2 Updated---->", res2);
+    console.log("res2---->", res2)
 
-    var upCounter = 1
     res2.forEach((element, index)=>{
-    var upCountId = 'counter_'+String(upCounter)
-
-    var name_post = element["post_title"];
-    var text_to_display = element["content_text"];
-    var post_tag = element["post_tag"];
-    var up_count = element["upvotes"];
-    var stamp = element["timestamp"];
-    var image_path = "https://resieve-image.s3.amazonaws.com/"+String(element["content_image"]).trim();
-    console.log("IMAGE PATH S3=====>>", image_path)
-
-    if (element["content_image"] == " Null" || element["content_image"] == "Null"){
-        var newtext = `<div class="subforum1" id="main_feed">
-            <div class="subforum-title">
-                <h1>${name_post}</h1>
-            </div>
-            <div class="subforum-row">
-                <div class="subforum-icon subforum-column center">
-                    <i class="fa fa-car center"></i>
-                </div>
-                <div class="subforum-description subforum-column">
-                    <h4><a href="#">${post_tag}</a></h4>
-                    <p>${text_to_display}</p>
-                </div>
-                <div class="subforum-stats subforum-column center">
-                    <span>
-                    <button type="button" onclick="update_counter("${upCountId}")">Upvote</button>
-                    <p id="${upCountId}" >Upvote Count : ${up_count}</p>
-                    </span>
-                </div>
-                <div class="subforum-info subforum-column">
-                    <b> Posted by User on </b>
-                    <br>on <small>${stamp}</small>
-                </div>
-            </div>
-        </div>`
-    $(".container").append(newtext);
-    }
-
-    else{
-    var newtext = `<div class="subforum1" id="main_feed">
-            <div class="subforum-title">
-                <h1>${name_post}</h1>
-            </div>
-            <div class="subforum-row">
-                <div class="subforum-icon subforum-column center">
-                    <i class="fa fa-car center"></i>
-                </div>
-                <div class="subforum-description subforum-column">
-                    <h4><a href="#">${post_tag}</a></h4>
-                    <p>${text_to_display}</p>
-                    <p><img src=${image_path} alt=${text_to_display}></p>
-                </div>
-                <div class="subforum-stats subforum-column center">
-                    <span>
-                    <button type="button" onclick="update_counter("${upCountId}")">Upvote</button>
-                    <p id="${upCountId}" >Upvote Count : ${up_count}</p>
-                    </span>
-                </div>
-                <div class="subforum-info subforum-column">
-                    <b> Posted by User on </b>
-                    <br>on <small>${stamp}</small>
-                </div>
-            </div>
-        </div>`
-
-    $(".container").append(newtext);
-    }
-    console.log(res2);
-
-    upCounter++;
-    });
-
-
-    // <b><a href="">Posted By </a></b> by <a href="">JustAUser</a>
-
-    // name_post = res2["post_title"];
-    // text_to_display = res2["content"];
-    // post_tag = res2["tag"];
-    // up_count = res2["up_count"];
-
-    // var newtext = `<div class="subforum1">
-    //         <div class="subforum-title">
-    //             <h1>${name_post}</h1>
-    //         </div>
-    //         <div class="subforum-row">
-    //             <div class="subforum-icon subforum-column center">
-    //                 <i class="fa fa-car center"></i>
-    //             </div>
-    //             <div class="subforum-description subforum-column">
-    //                 <h4><a href="#">${post_tag}</a></h4>
-    //                 <p><img src="https://images.hindustantimes.com/img/2021/09/18/1600x900/309456.7_1631970506804_1631970903630.jpg" style="width:128px;height:128px;"></p>
-    //             </div>
-    //             <div class="subforum-stats subforum-column center">
-    //                 <span>
-    //                 <button type="button" onclick="update_counter()">Upvote</button>
-    //                 <p id="counter" >Upvote Count : ${up_count}</p>
-    //                 </span>
-    //             </div>
-    //             <div class="subforum-info subforum-column">
-    //                 <b><a href="">Last post</a></b> by <a href="">JustAUser</a> 
-    //                 <br>on <small>12 Dec 2020</small>
-    //             </div>
-    //         </div>
-    //     </div>`
-
-    // $(".container").append(newtext);
-    // console.log(res2);
-}
-
-function httpGetOnSubmit(theUrl)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "POST", theUrl, false ); // false for synchronous request
-    xmlHttp.setRequestHeader("Access-Control-Allow-Origin" ,"*");
-    xmlHttp.setRequestHeader("Access-Control-Allow-Methods", "*");
-    xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "*");
-    xmlHttp.send("hello");
-    res1 = xmlHttp.responseText;
-    console.log("RES1 --->>>", res1);
-    res2 = JSON.parse(res1);
-    console.log("RES 2 in HTTP GET FUNCC---->", res2);
-    res2 = res2['a'];
-    console.log("RES 2 Updated---->", res2);
-
-    var upCounter = 1
-    res2.forEach((element, index)=>{
-    var upCountId = 'counter_'+String(upCounter)
-
-    var name_post = element["post_title"];
-    var text_to_display = element["content_text"];
-    var post_tag = element["post_tag"];
-    var up_count = element["upvotes"];
-    var stamp = element["timestamp"]
+    name_post = res2["post_title"];
+    text_to_display = res2["content"];
+    post_tag = res2["tag"];
+    up_count = res2["up_count"];
 
     var newtext = `<div class="subforum1">
             <div class="subforum-title">
@@ -199,29 +60,24 @@ function httpGetOnSubmit(theUrl)
                 </div>
                 <div class="subforum-description subforum-column">
                     <h4><a href="#">${post_tag}</a></h4>
-                    <p>${text_to_display}</p>
+                    <p><img src="https://images.hindustantimes.com/img/2021/09/18/1600x900/309456.7_1631970506804_1631970903630.jpg" style="width:128px;height:128px;"></p>
                 </div>
                 <div class="subforum-stats subforum-column center">
                     <span>
-                    <button type="button" onclick="update_counter("${upCountId}")">Upvote</button>
-                    <p id="${upCountId}" >Upvote Count : ${up_count}</p>
+                    <button type="button" onclick="update_counter()">Upvote</button>
+                    <p id="counter" >Upvote Count : ${up_count}</p>
                     </span>
                 </div>
                 <div class="subforum-info subforum-column">
-                    <b> Posted by User on </b>
-                    <br>on <small>${stamp}</small>
+                    <b><a href="">Last post</a></b> by <a href="">JustAUser</a> 
+                    <br>on <small>12 Dec 2020</small>
                 </div>
             </div>
         </div>`
 
     $(".container").append(newtext);
     console.log(res2);
-
-    upCounter++;
     });
-
-
-    // <b><a href="">Posted By </a></b> by <a href="">JustAUser</a>
 
     // name_post = res2["post_title"];
     // text_to_display = res2["content"];
@@ -257,8 +113,8 @@ function httpGetOnSubmit(theUrl)
     // console.log(res2);
 }
 
-function update_counter(inelement){
-    document.getElementById(inelement).innerHTML = "Upvote Count :" + String(++up_count);
+function update_counter(){
+    document.getElementById("counter").innerHTML = "Upvote Count :" + String(++up_count);
 }
 
 // function upload_image(){
@@ -351,57 +207,53 @@ reader.readAsDataURL(file);
 }
 
 
-function send_text(){
+function mytest(){
     var name = document.getElementById("post_title").value;
     var text_to_display = document.getElementById("newthread").value;
     var post_tag = document.getElementById("post_tag").value;
-    // var up_count = 24
+    var up_count = 24
 
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "POST", "https://548zfv0fek.execute-api.us-east-1.amazonaws.com/alpha/textUpload", false ); // false for synchronous request
+    xmlHttp.open( "POST", "http://127.0.0.1:5000/search", false ); // false for synchronous request
     xmlHttp.setRequestHeader("Access-Control-Allow-Origin" ,"*");
     xmlHttp.setRequestHeader("Access-Control-Allow-Methods", "*");
     xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "*");
-    xmlHttp.send(text_to_display);
+    xmlHttp.send( null );
     res1 = xmlHttp.responseText;
     res2 = JSON.parse(res1);
 
-    // console.log("res 2 in send text ====>", res2)
-
-    if (res2['isValid'] === 1){
+    if (res2['isValidContent'] != 1){
         alert("this is offensive content you can't post this")
     }
     else{
-        console.log("HERE IN ELSE SEND TEXT");
-        httpGetOnSubmit("https://548zfv0fek.execute-api.us-east-1.amazonaws.com/alpha/textUpload")
+
+    var newtext = `<div class="subforum1">
+            <div class="subforum-title">
+                <h1>${name}</h1>
+            </div>
+            <div class="subforum-row">
+                <div class="subforum-icon subforum-column center">
+                    <i class="fa fa-car center"></i>
+                </div>
+                <div class="subforum-description subforum-column">
+                    <h4><a href="#">${post_tag}</a></h4>
+                    <p>${text_to_display}</p>
+                </div>
+                <div class="subforum-stats subforum-column center">
+                    <span>
+                    <button type="button">Upvote</button>
+                    <p>Upvote Count : ${up_count}</p>
+                    </span>
+                </div>
+                <div class="subforum-info subforum-column">
+                    <b><a href="">Last post</a></b> by <a href="">JustAUser</a> 
+                    <br>on <small>12 Dec 2020</small>
+                </div>
+            </div>
+        </div>`
+
+    $(".container").append(newtext);      // Append the new elements
     }
-
-    // var newtext = `<div class="subforum1">
-    //         <div class="subforum-title">
-    //             <h1>${name}</h1>
-    //         </div>
-    //         <div class="subforum-row">
-    //             <div class="subforum-icon subforum-column center">
-    //                 <i class="fa fa-car center"></i>
-    //             </div>
-    //             <div class="subforum-description subforum-column">
-    //                 <h4><a href="#">${post_tag}</a></h4>
-    //                 <p>${text_to_display}</p>
-    //             </div>
-    //             <div class="subforum-stats subforum-column center">
-    //                 <span>
-    //                 <button type="button">Upvote</button>
-    //                 <p>Upvote Count : ${up_count}</p>
-    //                 </span>
-    //             </div>
-    //             <div class="subforum-info subforum-column">
-    //                 <b><a href="">Last post</a></b> by <a href="">JustAUser</a> 
-    //                 <br>on <small>12 Dec 2020</small>
-    //             </div>
-    //         </div>
-    //     </div>`
-
-    // $(".container").append(newtext);      // Append the new elements
 
     // // Creating a div element
     //     var divElement = document.createElement("Div");
@@ -432,15 +284,6 @@ function send_text(){
     //     document.getElementsByTagName("body")[0].appendChild(divElement);
 }
 
-function send_data(){
-    var file = document.getElementById('myfile').files[0];
-    console.log("file ====>>>", file)
-    if (file == null){
-        console.log("herre in no file");
-        send_text();
-    }
-    else{
-        upload_image();
-    }
-}
 
+
+var div_ele = document.createElement()

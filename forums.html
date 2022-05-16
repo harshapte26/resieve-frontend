@@ -24,7 +24,7 @@
                 </ul>
             </nav>
             <!-- <a class="bar-icon" id="iconBar" onclick="hideIconBar()"><i class="fa fa-bars"></i></a> -->
-            <div class="brand" onclick='httpGet("https://iif39zbogl.execute-api.us-east-1.amazonaws.com/alpha")'>ReSieve</div>
+            <div class="brand" onclick='httpGet("https://548zfv0fek.execute-api.us-east-1.amazonaws.com/alpha/dataFetch")'>ReSieve</div>
         </div>
         <!--SearchBox Section-->
         <div class="search-box">
@@ -59,9 +59,9 @@
           </form>
           <br>
           <textarea rows="4" cols="50" name="comment" form="usrform" id="newthread" placeholder="Enter Text Here"></textarea>
-          <input type="submit" onclick="return upload_image();">
+          <input type="submit" onclick="return send_data();">
 
-        <!-- <div class="subforum">
+        <!-- <div class="subforum" id="main_feed">
             <div class="subforum-title">
                 <h1>General Information</h1>
             </div>
