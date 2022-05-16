@@ -72,7 +72,7 @@ function httpGet(theUrl)
             </div>
             <div class="subforum-row">
                 <div class="subforum-icon subforum-column center">
-                    <i class="fa fa-car center"></i>
+                    <i class="fa fa-user-circle center"></i>
                 </div>
                 <div class="subforum-description subforum-column">
                     <h4><a href="#">${post_tag}</a></h4>
@@ -100,11 +100,10 @@ function httpGet(theUrl)
             </div>
             <div class="subforum-row">
                 <div class="subforum-icon subforum-column center">
-                    <i class="fa fa-car center"></i>
+                    <i class="fa fa-user-circle center"></i>
                 </div>
                 <div class="subforum-description subforum-column">
                     <h4><a href="#">${post_tag}</a></h4>
-                    <p>${text_to_display}</p>
                     <p><img src=${image_path} alt=${text_to_display}></p>
                 </div>
                 <div class="subforum-stats subforum-column center">
@@ -442,5 +441,99 @@ function send_data(){
     else{
         upload_image();
     }
+}
+
+function onLoadEvent(){
+    // return false;
+    var clean_container = document.getElementById("main_feed");
+    if (typeof(clean_container) != 'undefined' && clean_container != null)
+    {
+        clean_container.innerHTML = " ";
+    }
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.setRequestHeader("Access-Control-Allow-Origin" ,"*");
+    xmlHttp.setRequestHeader("Access-Control-Allow-Methods", "*");
+    xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "*");
+    xmlHttp.send("hello");
+    res1 = xmlHttp.responseText;
+    console.log("RES1 --->>>", res1);
+    res2 = JSON.parse(res1);
+    console.log("RES 2 in HTTP GET FUNCC---->", res2);
+    res2 = res2['a'];
+    console.log("RES 2 Updated---->", res2);
+
+    var upCounter = 1
+    res2.forEach((element, index)=>{
+    var upCountId = 'counter_'+String(upCounter)
+
+    var name_post = element["post_title"];
+    var text_to_display = element["content_text"];
+    var post_tag = element["post_tag"];
+    var up_count = element["upvotes"];
+    var stamp = element["timestamp"];
+    var image_path = "https://resieve-image.s3.amazonaws.com/"+String(element["content_image"]).trim();
+    console.log("IMAGE PATH S3=====>>", image_path)
+
+    if (element["content_image"] == " Null" || element["content_image"] == "Null"){
+        var newtext = `<div class="subforum1" id="main_feed">
+            <div class="subforum-title">
+                <h1>${name_post}</h1>
+            </div>
+            <div class="subforum-row">
+                <div class="subforum-icon subforum-column center">
+                    <i class="fa fa-user-circle center"></i>
+                </div>
+                <div class="subforum-description subforum-column">
+                    <h4><a href="#">${post_tag}</a></h4>
+                    <p>${text_to_display}</p>
+                </div>
+                <div class="subforum-stats subforum-column center">
+                    <span>
+                    <button type="button" onclick="update_counter("${upCountId}")">Upvote</button>
+                    <p id="${upCountId}" >Upvote Count : ${up_count}</p>
+                    </span>
+                </div>
+                <div class="subforum-info subforum-column">
+                    <b> Posted by User on </b>
+                    <br>on <small>${stamp}</small>
+                </div>
+            </div>
+        </div>`
+    $(".container").append(newtext);
+    }
+
+    else{
+    var newtext = `<div class="subforum1" id="main_feed">
+            <div class="subforum-title">
+                <h1>${name_post}</h1>
+            </div>
+            <div class="subforum-row">
+                <div class="subforum-icon subforum-column center">
+                    <i class="fa fa-user-circle center"></i>
+                </div>
+                <div class="subforum-description subforum-column">
+                    <h4><a href="#">${post_tag}</a></h4>
+                    <p><img src=${image_path} alt=${text_to_display}></p>
+                </div>
+                <div class="subforum-stats subforum-column center">
+                    <span>
+                    <button type="button" onclick="update_counter("${upCountId}")">Upvote</button>
+                    <p id="${upCountId}" >Upvote Count : ${up_count}</p>
+                    </span>
+                </div>
+                <div class="subforum-info subforum-column">
+                    <b> Posted by User on </b>
+                    <br>on <small>${stamp}</small>
+                </div>
+            </div>
+        </div>`
+
+    $(".container").append(newtext);
+    }
+    console.log(res2);
+
+    upCounter++;
+    });
 }
 
