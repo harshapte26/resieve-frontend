@@ -30,7 +30,7 @@
 // var name_post;
 // var text_to_display;
 // var post_tag;
-// var up_count;
+var up_count;
 
 function httpGet(theUrl)
 {
@@ -53,7 +53,7 @@ function httpGet(theUrl)
     res2 = res2['a'];
     console.log("RES 2 Updated---->", res2);
 
-    var upCounter = 1
+    var upCounter = 1;
     res2.forEach((element, index)=>{
     var upCountId = 'counter_'+String(upCounter)
 
@@ -94,7 +94,9 @@ function httpGet(theUrl)
     }
 
     else{
-    var newtext = `<div class="subforum1" id="main_feed">
+        console.log("Upcount in else --->>", up_count)
+        console.log("Upcount datatype --->", typeof up_count)
+        var new_img_text = `<div class="subforum1" id="main_feed">
             <div class="subforum-title">
                 <h1>${name_post}</h1>
             </div>
@@ -108,7 +110,7 @@ function httpGet(theUrl)
                 </div>
                 <div class="subforum-stats subforum-column center">
                     <span>
-                    <button type="button" onclick="update_counter("${upCountId}")">Upvote</button>
+                    <button type="button" onclick="update_counter(${upCountId})">Upvote</button>
                     <p id="${upCountId}" >Upvote Count : ${up_count}</p>
                     </span>
                 </div>
@@ -119,7 +121,7 @@ function httpGet(theUrl)
             </div>
         </div>`
 
-    $(".container").append(newtext);
+    $(".container").append(new_img_text);
     }
     console.log(res2);
 
@@ -257,7 +259,12 @@ function httpGetOnSubmit(theUrl)
 }
 
 function update_counter(inelement){
-    document.getElementById(inelement).innerHTML = "Upvote Count :" + String(++up_count);
+    console.log("inelement --->>", inelement)
+    new_id = inelement.id
+    inner_val = document.getElementById(new_id).innerHTML;
+    console.log("iner parsing", inner_val[(inner_val.length)-1])
+    new_count = parseInt(inner_val[(inner_val.length)-1])
+    document.getElementById(new_id).innerHTML = "Upvote Count :" + String(++new_count);
 }
 
 // function upload_image(){
@@ -351,9 +358,30 @@ reader.readAsDataURL(file);
 
 
 function send_text(){
+
+    var d = new Date();
+    d = new Date(d.getTime() - 3000000);
+    var date_format_str = d.getFullYear().toString()+"-"+((d.getMonth()+1).toString().length==2?(d.getMonth()+1).toString():"0"+(d.getMonth()+1).toString())+"-"+(d.getDate().toString().length==2?d.getDate().toString():"0"+d.getDate().toString())+" "+(d.getHours().toString().length==2?d.getHours().toString():"0"+d.getHours().toString())+":"+((parseInt(d.getMinutes()/5)*5).toString().length==2?(parseInt(d.getMinutes()/5)*5).toString():"0"+(parseInt(d.getMinutes()/5)*5).toString())+":00";
+
     var name = document.getElementById("post_title").value;
     var text_to_display = document.getElementById("newthread").value;
     var post_tag = document.getElementById("post_tag").value;
+    var upvotes = 0;
+    var user_id = 'user_1';
+    var content_image = 'Null';
+    var timestamp = date_format_str
+
+    ingest_data = {
+    'post_id':String(parseInt(Math.random()*1000)),
+    'user_id': String(user_id),
+    'post_title': String(name),
+    'post_tag': String(post_tag),
+    'content_text': String(text_to_display),
+    'content_image': String(content_image),
+    'upvotes': String(upvotes),
+    'timestamp': String(date_format_str)
+    }
+
     // var up_count = 24
 
     var xmlHttp = new XMLHttpRequest();
@@ -361,7 +389,7 @@ function send_text(){
     xmlHttp.setRequestHeader("Access-Control-Allow-Origin" ,"*");
     xmlHttp.setRequestHeader("Access-Control-Allow-Methods", "*");
     xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "*");
-    xmlHttp.send(text_to_display);
+    xmlHttp.send(JSON.stringify(ingest_data));
     res1 = xmlHttp.responseText;
     res2 = JSON.parse(res1);
 
@@ -372,7 +400,8 @@ function send_text(){
     }
     else{
         console.log("HERE IN ELSE SEND TEXT");
-        httpGetOnSubmit("https://548zfv0fek.execute-api.us-east-1.amazonaws.com/alpha/textUpload")
+        // httpGet("https://548zfv0fek.execute-api.us-east-1.amazonaws.com/alpha/textUpload")
+        location.reload()
     }
 
     // var newtext = `<div class="subforum1">
@@ -490,7 +519,7 @@ function onLoadEvent(){
                 </div>
                 <div class="subforum-stats subforum-column center">
                     <span>
-                    <button type="button" onclick="update_counter("${upCountId}")">Upvote</button>
+                    <button type="button" onclick="update_counter(${upCountId})">Upvote</button>
                     <p id="${upCountId}" >Upvote Count : ${up_count}</p>
                     </span>
                 </div>
