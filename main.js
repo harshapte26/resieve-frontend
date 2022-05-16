@@ -3,6 +3,15 @@ var up_count;
 
 const urlSearchParams = new URLSearchParams(window.location.search);
 const params = Object.fromEntries(urlSearchParams.entries());
+var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+var params_fetch = {
+  AccessToken: String(params["code"]) /* required */
+};
+cognitoidentityserviceprovider.getUser(params_fetch, function(err, data) {
+  if (err) console.log(err, err.stack); // an error occurred
+  else     console.log(data);           // successful response
+});
+
 console.log("query Params ====>>", params)
 
 function httpGet(theUrl)
