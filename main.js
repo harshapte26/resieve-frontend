@@ -77,6 +77,96 @@ function httpGet(theUrl)
     console.log(res2);
 }
 
+// function upload_image(){
+//     // var file = document.getElementById('file_path').files[0];
+//     var file_name = document.getElementById("myfile").mozFullPath;
+//     console.log("file_name =====>> ", file_name)
+// }
+
+function upload_image(){
+var tag_image = document.getElementById('post_tag').value;
+var file = document.getElementById('myfile').files[0];
+var type_file_up = file.type;
+var name_f = file.name;
+console.log("File Type ===>", type_file_up)
+
+
+// var file = document.querySelector(
+//         'input[type=file]')['files'][0];
+
+var base64String = "";
+var reader = new FileReader();
+console.log("next");
+    
+reader.onload = function () {
+    base64String = reader.result.replace("data:", "")
+        .replace(/^.+,/, "");
+
+    imageBase64Stringsep = base64String;
+
+    // alert(imageBase64Stringsep);
+    // console.log(base64String);
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "POST", "https://548zfv0fek.execute-api.us-east-1.amazonaws.com/alpha/dataUpload", false ); // false for synchronous request
+    xmlHttp.setRequestHeader("x-amz-meta-customLabels" ,tag_image);
+    xmlHttp.setRequestHeader("Content-Type", type_file_up);
+    xmlHttp.setRequestHeader("filename", name_f)
+    // xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "*");
+
+    xmlHttp.send(base64String);
+    res1 = xmlHttp.responseText;
+    res2 = JSON.parse(res1);
+    console.log("RESPONSE ----->>>>>>>", res2)
+    
+    if(res2['isValid'] === 1){
+        console.log("ITS APRROVED!!!!!")
+        alert("Image Uploaded Successfully")
+    }
+    else{
+        alert("Image is not appropriate according to guidelines, please upload different image")
+    }
+}
+reader.readAsDataURL(file);
+
+// console.log("base 64 image --->>>", base64String)
+
+// var reader = new FileReader();
+// reader.readAsArrayBuffer(file);
+// reader.onload = function (event) {
+//     console.log("Reader Object",event.target.result)
+//     console.log("Reader ",reader.result)
+//     // var myHeaders = new Headers();
+//     // myHeaders.append("x-amz-meta-customLabels",  note_customtag.value);
+//     // myHeaders.append("Content-Type", type_file_up);
+//     // console.log("Header here --->>>", myHeaders)
+//     var file = new Uint8Array(reader.result);
+//     // var requestOptions = {
+//     // method: 'PUT',
+//     // headers: {"x-amz-meta-customLabels" : tag_image, "Content-Type": type_file_up},
+//     // body: file,
+//     // redirect: 'follow'
+//     // };
+
+//     var xmlHttp = new XMLHttpRequest();
+//     xmlHttp.open( "POST", "https://548zfv0fek.execute-api.us-east-1.amazonaws.com/alpha/dataUpload", false ); // false for synchronous request
+//     xmlHttp.setRequestHeader("x-amz-meta-customLabels" ,tag_image);
+//     xmlHttp.setRequestHeader("Content-Type", type_file_up);
+//     // xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "*");
+//     xmlHttp.send(file);
+//     res1 = xmlHttp.responseText;
+//     res2 = JSON.parse(res1);
+//     console.log("RESPONSE ----->>>>>>>", res2)
+
+
+//     // console.log("re headers ====>>>>", requestOptions);
+//     // fetch(`https://16577esc56.execute-api.us-east-1.amazonaws.com/alpha/upload/album-photo-store/${name_f}`, requestOptions)
+//     // .then(response => response.text())
+//     // .then(result => console.log(result)).then(alert("Photo uploaded successfully!"))
+//     // .catch(error => console.log('error', error));
+// }
+}
+
+
 function mytest(){
     var name = document.getElementById("post_title").value;
     var text_to_display = document.getElementById("newthread").value;
