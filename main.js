@@ -406,7 +406,9 @@ function send_text(){
     // console.log("res 2 in send text ====>", res2)
 
     if (res2['isValid'] === 1){
-        alert("this is offensive content you can't post this")
+        var offense_labels = res2['detect_labels'];
+        alert_string = "Offensive content detected!!!\n Post content may have the following categories: " + offense_labels.toString();
+        alert(alert_string)
     }
     else{
         console.log("HERE IN ELSE SEND TEXT");
