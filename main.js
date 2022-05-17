@@ -419,6 +419,8 @@ function send_text(){
     
 }
 
+//codepipeline
+
 function send_data(){
     var file = document.getElementById('myfile').files[0];
     console.log("file ====>>>", file)
