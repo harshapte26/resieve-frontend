@@ -358,12 +358,12 @@ reader.onload = function () {
         alert("Image Uploaded Successfully")
     }
     else{
-        alert("Image is not appropriate according to guidelines, please upload different image")
+        alert("WARNING!!!\n Image modified according to community standards as offensive content detected in the image")
     }
 }
 reader.readAsDataURL(file);
 
-
+location.reload()
 }
 
 
